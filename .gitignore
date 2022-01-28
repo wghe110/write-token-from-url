@@ -1,0 +1,10 @@
+# dotenv environment variables file
+.DS_Store
+
+# Package Manager
+node_modules
+.pnpm-debug.log*
+npm-debug.log*
+
+# local env files
+*.local
