@@ -3,6 +3,7 @@ const ts = require('gulp-typescript')
 const rename = require("gulp-rename")
 const uglify = require('gulp-uglify')
 const gls = require('gulp-live-server');
+const browserSync = require('browser-sync')
 
 
 const buildFn = () => {
@@ -17,13 +18,23 @@ const buildFn = () => {
 }
 
 const serveFn = () => {
-  const server = gls.static(['demo'])
-  server.start()
+  // const server = gls.static(['demo'])
+  // server.start()
+  browserSync({
+    files: '*/**',
+    browser: '',
+    server: {
+      baseDir: './'
+    },
+    startPath: 'demo/index.html',
+    open: 'external'
+  });
+
 
   watch(['./src/**', './demo/**'], (file: any) => {
     buildFn()
 
-    server.notify.apply(server, [file])
+    // server.notify.apply(server, [file])
   })
 }
 
