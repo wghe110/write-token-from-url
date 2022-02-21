@@ -7,8 +7,8 @@ const browserSync = require('browser-sync')
 
 
 const buildFn = () => {
-  return src('./src/index.ts')
-    .pipe(ts())
+  return src('./src/index.js')
+    // .pipe(ts())
     .pipe(dest('./lib'))
     .pipe(uglify())
     .pipe(rename({
