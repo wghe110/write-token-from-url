@@ -21,5 +21,32 @@ const getTokenInLocalstorage = (tname = "token", callback) => {
   }
 }
 
-const oglobal = typeof window !== 'undefined' ? window : global
-oglobal && (oglobal.getTokenInLocalstorage = getTokenInLocalstorage)
+const factoryFn = () => {
+  return getTokenInLocalstorage
+}
+
+
+((root, factory) => {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    // commonjs-node
+    module.exports = factory()
+  }
+
+  else if (typeof define === 'function' && define.amd) {
+    // amd-requirejs
+    define(factory())
+  }
+
+  else if (typeof define === 'function' && define.cmd) {
+    // cmd-sea.js
+    define(function (require, exports, module) {
+      module.exports = factory()
+    })
+  }
+
+  else {
+    // global or window
+    root.getTokenInLocalstorage = factory()
+  }
+})(window || global, factoryFn)
+

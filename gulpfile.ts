@@ -1,14 +1,15 @@
 const { watch, src, dest, series } = require('gulp')
-const ts = require('gulp-typescript')
 const rename = require("gulp-rename")
 const uglify = require('gulp-uglify')
-const gls = require('gulp-live-server');
-const browserSync = require('browser-sync')
+const browserSync = require('browser-sync');
+const babel = require('gulp-babel');
 
 
 const buildFn = () => {
   return src('./src/index.js')
-    // .pipe(ts())
+    .pipe(babel({
+      presets: ['es2015']
+    }))
     .pipe(dest('./lib'))
     .pipe(uglify())
     .pipe(rename({
@@ -18,8 +19,7 @@ const buildFn = () => {
 }
 
 const serveFn = () => {
-  // const server = gls.static(['demo'])
-  // server.start()
+
   browserSync({
     files: '*/**',
     browser: '',
@@ -31,10 +31,8 @@ const serveFn = () => {
   });
 
 
-  watch(['./src/**', './demo/**'], (file: any) => {
+  watch(['./src/**', './demo/**'], (file) => {
     buildFn()
-
-    // server.notify.apply(server, [file])
   })
 }
 

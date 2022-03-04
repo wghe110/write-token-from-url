@@ -17,6 +17,6 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
-    quotes: false,
+    quotes: 0,
   },
 };
